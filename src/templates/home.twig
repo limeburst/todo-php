@@ -2,4 +2,22 @@
 
 {% block content %}
   <p>todo.</p>
+  {% if current_user(app) %}
+    <h2>tasks</h2>
+    <form action="{{ path('add_task') }}" method="post">
+      <div>
+        <input type="text" id="name" name="name">
+        <button type="submit">add task</button>
+      </div>
+    </form>
+    {% if current_user(app).tasks|length > 0 %}
+      <ul>
+        {% for task in current_user(app).tasks|reverse %}
+          <li>{{ task.name }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>nothing to do.</p>
+    {% endif %}
+  {% endif %}
 {% endblock %}

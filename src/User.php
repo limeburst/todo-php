@@ -20,4 +20,11 @@ class User
 
     /** @Column(type="string", nullable=false) */
     public $password;
+
+	/** @OneToMany(targetEntity="Task", mappedBy="owner") */
+	public $tasks;
+
+	public function __construct() {
+		$this->tasks = new ArrayCollection();
+	}
 }

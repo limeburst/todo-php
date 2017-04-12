@@ -108,4 +108,20 @@ $app->post('/logout/', function() use ($app) {
 	return $app->redirect($app['url_generator']->generate('login_page'));
 })->bind('logout');
 
+$app->post('/tasks/', function(Request $request) use ($app) {
+	$user = current_user($app);
+	if (!$user) {
+		$app['session']->getFlashBag()->add('message', 'not logged in');
+		return $app->redirect($app['url_generator']->generate('login_page'));
+	}
+	$task = new Task();
+	$task->done = false;
+	$task->name = $request->get('name');
+	$task->owner = $user;
+	$app['orm.em']->persist($task);
+	$app['orm.em']->flush();
+	$app['session']->getFlashBag()->add('message', 'task added');
+	return $app->redirect($app['url_generator']->generate('home'));
+})->bind('add_task');
+
 return $app;
