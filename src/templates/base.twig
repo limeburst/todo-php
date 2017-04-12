@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>todo</title>
+</head>
+<body>
+<header>
+  <h1>
+    <a href="{{ path('home') }}">todo</a>
+  </h1>
+  <ul>
+    {% for message in app.session.getFlashBag.get('message') %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  <nav>
+    <ul>
+      <li>
+        {% if current_user(app) %}
+          <form action="{{ path('logout') }}" method="post">
+            <label>logged in as {{ current_user(app).username }}</label>
+            <button type="submit">logout</button>
+          </form>
+        {% else %}
+          <a href="{{ path('login_page') }}">login</a>
+        {% endif %}
+      </li>
+      <li><a href="{{ path('users') }}">users</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  {% block content %}
+  {% endblock %}
+</main>
+</body>
+</html>

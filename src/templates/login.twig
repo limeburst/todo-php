@@ -1,0 +1,40 @@
+{% extends "base.twig" %}
+
+{% block content %}
+  <h2>login</h2>
+  <form action="{{ path('login') }}" method="post">
+    <div>
+      <label for="username">username:</label>
+      <input type="text" id="username" name="username">
+    </div>
+    <div>
+      <label for="name">password:</label>
+      <input type="password" id="password" name="password">
+    </div>
+    <div>
+      <button type="submit">login</button>
+    </div>
+  </form>
+  <h2>create account</h2>
+  <form action="{{ path('add_user') }}" method="post">
+    <div>
+      <label for="name">name:</label>
+      <input type="text" id="name" name="name">
+    </div>
+    <div>
+      <label for="username">username:</label>
+      <input type="text" id="username" name="username">
+    </div>
+    <div>
+      <label for="email">email:</label>
+      <input type="email" id="email" name="email">
+    </div>
+    <div>
+      <label for="name">password:</label>
+      <input type="password" id="password" name="password">
+    </div>
+    <div>
+      <button type="submit">create account</button>
+    </div>
+  </form>
+{% endblock %}
