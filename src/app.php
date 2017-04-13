@@ -46,7 +46,7 @@ $app->register(new TwigServiceProvider(), [
 ]);
 $app['twig']->addFunction(new Twig_Function('current_user', 'current_user'));
 
-$app->get('/', function() use ($app) {
+$app->get('/', function () use ($app) {
 	$user = current_user($app);
 	if (!$user) {
 		return $app['twig']->render('home.twig');
@@ -88,7 +88,7 @@ $app->post('/users/', function (Request $request) use ($app) {
 	return $app->redirect($app['url_generator']->generate('users'));
 })->bind('add_user');
 
-$app->get('/users/{username}/', function($username) use ($app) {
+$app->get('/users/{username}/', function ($username) use ($app) {
 	$user = $app['orm.em']->getRepository('Todo\User')->findOneBy(['username' => $username]);
 	if (!$user) {
 		$app->abort(404, 'user does not exist.');
@@ -121,7 +121,7 @@ $app->post('/login/', function (Request $request) use ($app) {
 	return $app->redirect($app['url_generator']->generate('home'));
 })->bind('login');
 
-$app->post('/logout/', function() use ($app) {
+$app->post('/logout/', function () use ($app) {
 	if (!current_user($app)) {
 		$app['session']->getFlashBag()->add('message', 'not logged in');
 		return $app->redirect($app['url_generator']->generate('login_page'));
@@ -131,7 +131,7 @@ $app->post('/logout/', function() use ($app) {
 	return $app->redirect($app['url_generator']->generate('login_page'));
 })->bind('logout');
 
-$app->post('/tasks/', function(Request $request) use ($app) {
+$app->post('/tasks/', function (Request $request) use ($app) {
 	$user = current_user($app);
 	if (!$user) {
 		$app['session']->getFlashBag()->add('message', 'not logged in');
@@ -147,7 +147,7 @@ $app->post('/tasks/', function(Request $request) use ($app) {
 	return $app->redirect($app['url_generator']->generate('home'));
 })->bind('add_task');
 
-$app->post('/tasks/done/', function(Request $request) use ($app) {
+$app->post('/tasks/done/', function (Request $request) use ($app) {
 	$user = current_user($app);
 	if (!$user) {
 		$app['session']->getFlashBag()->add('message', 'not logged in');
