@@ -85,6 +85,14 @@ $app->post('/users/', function (Request $request) use ($app) {
 	return $app->redirect($app['url_generator']->generate('users'));
 })->bind('add_user');
 
+$app->get('/users/{username}/', function($username) use ($app) {
+	$user = $app['orm.em']->getRepository('User')->findOneBy(['username' => $username]);
+	if (!$user) {
+		$app->abort(404, 'user does not exist.');
+	}
+	return $app['twig']->render('user.twig', ['user' => $user]);
+})->bind('user');
+
 $app->get('/login/', function () use ($app) {
 	if (current_user($app)) {
 		$app['session']->getFlashBag()->add('message', 'already logged in');

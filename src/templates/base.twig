@@ -2,6 +2,11 @@
 <html>
 <head>
   <title>todo</title>
+  <style>
+    .done {
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body>
 <header>
@@ -18,7 +23,10 @@
       <li>
         {% if current_user(app) %}
           <form action="{{ path('logout') }}" method="post">
-            <label>logged in as {{ current_user(app).username }}</label>
+            <label>
+              logged in as
+              <a href="{{ path('user', {'username': current_user(app).username}) }}">{{ current_user(app).username }}</a>
+            </label>
             <button type="submit">logout</button>
           </form>
         {% else %}
