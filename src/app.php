@@ -4,7 +4,6 @@ require_once __DIR__.'/helpers.php';
 
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\RoutingServiceProvider;
@@ -67,12 +66,13 @@ $app->post('/users/', function (Request $request) use ($app) {
 	$user->username = $request->get('username');
 	$user->email = $request->get('email');
 	$user->password = password_hash($request->get('password'), PASSWORD_DEFAULT);
+	if (!$user->name || !$user->username || !$user->email || !$user->password) {
+		$app['session']->getFlashBag()->add('message', 'please fill in all fields');
+		return $app->redirect($app['url_generator']->generate('login_page'));
+	}
 	$app['orm.em']->persist($user);
 	try {
 		$app['orm.em']->flush();
-	} catch (NotNullConstraintViolationException $e) {
-		$app['session']->getFlashBag()->add('message', 'please fill in all fields');
-		return $app->redirect($app['url_generator']->generate('login_page'));
 	} catch (UniqueConstraintViolationException $e) {
 		$app['session']->getFlashBag()->add('message', 'choose another username or email');
 		return $app->redirect($app['url_generator']->generate('login_page'));
