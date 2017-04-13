@@ -44,6 +44,10 @@ $app->register(new TwigServiceProvider(), [
 $app['twig']->addFunction(new Twig_Function('current_user', 'current_user'));
 
 $app->get('/', function() use ($app) {
+	$user = current_user($app);
+	if (!$user) {
+		return $app['twig']->render('home.twig');
+	}
 	$tasks = current_user($app)->tasks->getValues();
 	if ($tasks) {
 		$doing = array_filter($tasks, function ($task) {
