@@ -45,7 +45,15 @@ $app->register(new TwigServiceProvider(), [
 $app['twig']->addFunction(new Twig_Function('current_user', 'current_user'));
 
 $app->get('/', function() use ($app) {
-	return $app['twig']->render('home.twig');
+	$tasks = current_user($app)->tasks->getValues();
+	if ($tasks) {
+		$doing = array_filter($tasks, function ($task) {
+			return !$task->done;
+		});
+	} else {
+		$doing = [];
+	}
+	return $app['twig']->render('home.twig', ['tasks' => $doing]);
 })->bind('home');
 
 $app->get('/users/', function () use ($app) {
@@ -123,5 +131,23 @@ $app->post('/tasks/', function(Request $request) use ($app) {
 	$app['session']->getFlashBag()->add('message', 'task added');
 	return $app->redirect($app['url_generator']->generate('home'));
 })->bind('add_task');
+
+$app->post('/tasks/done/', function(Request $request) use ($app) {
+	$user = current_user($app);
+	if (!$user) {
+		$app['session']->getFlashBag()->add('message', 'not logged in');
+		return $app->redirect($app['url_generator']->generate('login_page'));
+	}
+	$task = $app['orm.em']->find('Task', $request->get('id'));
+	if ($task->owner !== $user) {
+		$app['session']->getFlashBag()->add('message', 'you are not the task owner');
+		return $app->redirect($app['url_generator']->generate('home'));
+	}
+	$task->done = true;
+	$app['orm.em']->persist($task);
+	$app['orm.em']->flush();
+	$app['session']->getFlashBag()->add('message', 'task done!');
+	return $app->redirect($app['url_generator']->generate('home'));
+})->bind('task_done');
 
 return $app;

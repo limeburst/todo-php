@@ -1,7 +1,6 @@
 {% extends "base.twig" %}
 
 {% block content %}
-  <p>todo.</p>
   {% if current_user(app) %}
     <h2>tasks</h2>
     <form action="{{ path('add_task') }}" method="post">
@@ -10,14 +9,22 @@
         <button type="submit">add task</button>
       </div>
     </form>
-    {% if current_user(app).tasks|length > 0 %}
+    {% if tasks %}
       <ul>
-        {% for task in current_user(app).tasks|reverse %}
-          <li>{{ task.name }}</li>
+        {% for task in tasks %}
+          <li>
+            <form action="{{ path('task_done') }}" method="post">
+              <button type="submit">done!</button>
+              <input type="hidden" value="{{ task.id }}" name="id" id="task_id">
+              <label>{{ task.name }}</label>
+            </form>
+          </li>
         {% endfor %}
       </ul>
     {% else %}
       <p>nothing to do.</p>
     {% endif %}
+  {% else %}
+    <p>todo.</p>
   {% endif %}
 {% endblock %}
