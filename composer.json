@@ -1,6 +1,6 @@
 {
   "autoload": {
-    "psr-4": {"": "src/"}
+    "psr-4": {"Todo\\": "src/"}
   },
   "require": {
     "dflydev/doctrine-orm-service-provider": "^2.0",

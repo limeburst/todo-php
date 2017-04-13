@@ -11,6 +11,9 @@ use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 
+use Todo\User;
+use Todo\Task;
+
 $app = new Application();
 $app['debug'] = true;
 $app->register(new DoctrineServiceProvider(), [
@@ -24,12 +27,12 @@ $app->register(new DoctrineOrmServiceProvider(), [
 		'mappings' => [
 			[
 				'type' => 'annotation',
-				'namespace' => 'User',
+				'namespace' => 'Todo\User',
 				'path' => __DIR__,
 			],
 			[
 				'type' => 'annotation',
-				'namespace' => 'Task',
+				'namespace' => 'Todo\Task',
 				'path' => __DIR__,
 			],
 		],
@@ -60,7 +63,7 @@ $app->get('/', function() use ($app) {
 })->bind('home');
 
 $app->get('/users/', function () use ($app) {
-	$users = $app['orm.em']->getRepository('User')->findAll();
+	$users = $app['orm.em']->getRepository('Todo\User')->findAll();
 	return $app['twig']->render('users.twig', ['users' => $users]);
 })->bind('users');
 
@@ -86,7 +89,7 @@ $app->post('/users/', function (Request $request) use ($app) {
 })->bind('add_user');
 
 $app->get('/users/{username}/', function($username) use ($app) {
-	$user = $app['orm.em']->getRepository('User')->findOneBy(['username' => $username]);
+	$user = $app['orm.em']->getRepository('Todo\User')->findOneBy(['username' => $username]);
 	if (!$user) {
 		$app->abort(404, 'user does not exist.');
 	}
@@ -102,7 +105,7 @@ $app->get('/login/', function () use ($app) {
 })->bind('login_page');
 
 $app->post('/login/', function (Request $request) use ($app) {
-	$user = $app['orm.em']->getRepository('User')->findOneBy([
+	$user = $app['orm.em']->getRepository('Todo\User')->findOneBy([
 		'username' => $request->get('username')
 	]);
 	if (!$user) {
@@ -150,7 +153,7 @@ $app->post('/tasks/done/', function(Request $request) use ($app) {
 		$app['session']->getFlashBag()->add('message', 'not logged in');
 		return $app->redirect($app['url_generator']->generate('login_page'));
 	}
-	$task = $app['orm.em']->find('Task', $request->get('id'));
+	$task = $app['orm.em']->find('Todo\Task', $request->get('id'));
 	if ($task->owner !== $user) {
 		$app['session']->getFlashBag()->add('message', 'you are not the task owner');
 		return $app->redirect($app['url_generator']->generate('home'));

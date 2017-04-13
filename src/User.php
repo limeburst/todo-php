@@ -1,4 +1,6 @@
 <?php
+namespace Todo;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

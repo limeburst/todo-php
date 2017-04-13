@@ -1,4 +1,6 @@
 <?php
+namespace Todo;
+
 /**
  * @Entity @Table(name="tasks")
  */
