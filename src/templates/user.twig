@@ -2,13 +2,19 @@
 
 {% block content %}
   <h2>{{ user.name }} ({{ user.username }})</h2>
-  {% if user.tasks|length > 0 %}
-    <ul>
-      {% for task in user.tasks|reverse %}
-        <li class="{% if task.done %}done{% else %}doing{% endif %}">{{ task.name }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>no done or doing tasks.</p>
-  {% endif %}
+  <div id="root">
+    {% if user.tasks|length > 0 %}
+      <ul>
+        {% for task in user.tasks|reverse %}
+          <li class="{% if task.done %}done{% else %}doing{% endif %}">{{ task.name }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>no done or doing tasks.</p>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="/dist/user.js"></script>
 {% endblock %}

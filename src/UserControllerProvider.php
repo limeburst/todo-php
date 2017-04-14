@@ -14,6 +14,7 @@ class UserControllerProvider implements ControllerProviderInterface
         $controllers->get('/', [$this, 'users'])->bind('users');
         $controllers->post('/', [$this, 'addUser'])->bind('add_user');
         $controllers->get('/{username}/', [$this, 'profile'])->bind('user');
+        $controllers->get('/{username}/tasks', [$this, 'tasks'])->bind('user_tasks');
         return $controllers;
     }
 
@@ -52,5 +53,18 @@ class UserControllerProvider implements ControllerProviderInterface
             $app->abort(404, 'user does not exist.');
         }
         return $app['twig']->render('user.twig', ['user' => $user]);
+    }
+
+    public function tasks(Application $app, $username)
+    {
+        $user = $app['orm.em']->getRepository('Todo\User')->findOneBy(['username' => $username]);
+        $tasks = array_map(function ($task) use ($user) {
+            return [
+                'id' => $task->id,
+                'name' => $task->name,
+                'done' => $task->done,
+            ];
+        }, $user->tasks->getValues());
+        return $app->json(array_reverse($tasks));
     }
 }

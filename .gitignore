@@ -1,4 +1,6 @@
 *.log
 .idea
 .vagrant
+dist
+node_modules
 vendor
