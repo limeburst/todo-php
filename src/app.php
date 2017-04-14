@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
-require_once __DIR__.'/helpers.php';
 
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Silex\Application;
@@ -46,7 +45,9 @@ $app->register(new TwigServiceProvider(), [
 	'twig.path' => __DIR__.'/templates',
 	'twig.options' => ['debug' => true],
 ]);
-$app['twig']->addFunction(new Twig_Function('current_user', 'current_user'));
+$app['twig']->addFunction(
+    new Twig_Function('current_user', 'Todo\SessionControllerProvider::getCurrentUser')
+);
 
 $app->mount('/', new HomeControllerProvider());
 $app->mount('/', new SessionControllerProvider());

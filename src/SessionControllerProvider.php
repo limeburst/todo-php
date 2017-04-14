@@ -18,7 +18,7 @@ class SessionControllerProvider implements ControllerProviderInterface
 
     public function loginPage(Application $app)
     {
-        if (current_user($app)) {
+        if ($this->getCurrentUser($app)) {
             $app['session']->getFlashBag()->add('message', 'already logged in');
             return $app->redirect($app['url_generator']->generate('home'));
         }
@@ -45,12 +45,22 @@ class SessionControllerProvider implements ControllerProviderInterface
 
     public function logout(Application $app)
     {
-        if (!current_user($app)) {
+        if (!$this->getCurrentUser($app)) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
             return $app->redirect($app['url_generator']->generate('login_page'));
         }
         $app['session']->remove('user');
         $app['session']->getFlashBag()->add('message', 'successfully logged out');
         return $app->redirect($app['url_generator']->generate('login_page'));
+    }
+
+    public static function getCurrentUser(Application $app)
+    {
+        $session_user = $app['session']->get('user');
+        if ($session_user and $session_user['id']) {
+            $user = $app['orm.em']->find('Todo\User', $session_user['id']);
+            return $user;
+        }
+        return null;
     }
 }
