@@ -3,19 +3,21 @@ require_once __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/helpers.php';
 
 use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\RoutingServiceProvider;
+use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
-use Symfony\Component\HttpFoundation\Request;
 
-use Todo\User;
-use Todo\Task;
+use Todo\HomeControllerProvider;
+use Todo\SessionControllerProvider;
+use Todo\TaskControllerProvider;
+use Todo\UserControllerProvider;
 
 $app = new Application();
 $app['debug'] = true;
+$app->register(new ServiceControllerServiceProvider());
 $app->register(new DoctrineServiceProvider(), [
 	'db.options' => [
 		'driver' => 'pdo_mysql',
@@ -46,123 +48,9 @@ $app->register(new TwigServiceProvider(), [
 ]);
 $app['twig']->addFunction(new Twig_Function('current_user', 'current_user'));
 
-$app->get('/', function () use ($app) {
-	$user = current_user($app);
-	if (!$user) {
-		return $app['twig']->render('home.twig');
-	}
-	$tasks = current_user($app)->tasks->getValues();
-	if ($tasks) {
-		$doing = array_filter($tasks, function ($task) {
-			return !$task->done;
-		});
-	} else {
-		$doing = [];
-	}
-	return $app['twig']->render('home.twig', ['tasks' => $doing]);
-})->bind('home');
-
-$app->get('/users/', function () use ($app) {
-	$users = $app['orm.em']->getRepository('Todo\User')->findAll();
-	return $app['twig']->render('users.twig', ['users' => $users]);
-})->bind('users');
-
-$app->post('/users/', function (Request $request) use ($app) {
-	$user = new User();
-	$user->name = $request->get('name');
-	$user->username = $request->get('username');
-	$user->email = $request->get('email');
-	$user->password = password_hash($request->get('password'), PASSWORD_DEFAULT);
-	if (!$user->name || !$user->username || !$user->email || !$user->password) {
-		$app['session']->getFlashBag()->add('message', 'please fill in all fields');
-		return $app->redirect($app['url_generator']->generate('login_page'));
-	}
-	$app['orm.em']->persist($user);
-	try {
-		$app['orm.em']->flush();
-	} catch (UniqueConstraintViolationException $e) {
-		$app['session']->getFlashBag()->add('message', 'choose another username or email');
-		return $app->redirect($app['url_generator']->generate('login_page'));
-	}
-	$app['session']->set('user', ['id' => $user->id]);
-	return $app->redirect($app['url_generator']->generate('users'));
-})->bind('add_user');
-
-$app->get('/users/{username}/', function ($username) use ($app) {
-	$user = $app['orm.em']->getRepository('Todo\User')->findOneBy(['username' => $username]);
-	if (!$user) {
-		$app->abort(404, 'user does not exist.');
-	}
-	return $app['twig']->render('user.twig', ['user' => $user]);
-})->bind('user');
-
-$app->get('/login/', function () use ($app) {
-	if (current_user($app)) {
-		$app['session']->getFlashBag()->add('message', 'already logged in');
-		return $app->redirect($app['url_generator']->generate('home'));
-	}
-	return $app['twig']->render('login.twig');
-})->bind('login_page');
-
-$app->post('/login/', function (Request $request) use ($app) {
-	$user = $app['orm.em']->getRepository('Todo\User')->findOneBy([
-		'username' => $request->get('username')
-	]);
-	if (!$user) {
-		$app['session']->getFlashBag()->add('message', 'no such user');
-		return $app->redirect($app['url_generator']->generate('login_page'));
-	}
-	if (!password_verify($request->get('password'), $user->password)) {
-		$app['session']->getFlashBag()->add('message', 'wrong password');
-		return $app->redirect($app['url_generator']->generate('login_page'));
-	}
-	$app['session']->getFlashBag()->add('message', 'login success');
-	$app['session']->set('user', ['id' => $user->id]);
-	return $app->redirect($app['url_generator']->generate('home'));
-})->bind('login');
-
-$app->post('/logout/', function () use ($app) {
-	if (!current_user($app)) {
-		$app['session']->getFlashBag()->add('message', 'not logged in');
-		return $app->redirect($app['url_generator']->generate('login_page'));
-	}
-	$app['session']->remove('user');
-	$app['session']->getFlashBag()->add('message', 'successfully logged out');
-	return $app->redirect($app['url_generator']->generate('login_page'));
-})->bind('logout');
-
-$app->post('/tasks/', function (Request $request) use ($app) {
-	$user = current_user($app);
-	if (!$user) {
-		$app['session']->getFlashBag()->add('message', 'not logged in');
-		return $app->redirect($app['url_generator']->generate('login_page'));
-	}
-	$task = new Task();
-	$task->done = false;
-	$task->name = $request->get('name');
-	$task->owner = $user;
-	$app['orm.em']->persist($task);
-	$app['orm.em']->flush();
-	$app['session']->getFlashBag()->add('message', 'task added');
-	return $app->redirect($app['url_generator']->generate('home'));
-})->bind('add_task');
-
-$app->post('/tasks/done/', function (Request $request) use ($app) {
-	$user = current_user($app);
-	if (!$user) {
-		$app['session']->getFlashBag()->add('message', 'not logged in');
-		return $app->redirect($app['url_generator']->generate('login_page'));
-	}
-	$task = $app['orm.em']->find('Todo\Task', $request->get('id'));
-	if ($task->owner !== $user) {
-		$app['session']->getFlashBag()->add('message', 'you are not the task owner');
-		return $app->redirect($app['url_generator']->generate('home'));
-	}
-	$task->done = true;
-	$app['orm.em']->persist($task);
-	$app['orm.em']->flush();
-	$app['session']->getFlashBag()->add('message', 'task done!');
-	return $app->redirect($app['url_generator']->generate('home'));
-})->bind('task_done');
+$app->mount('/', new HomeControllerProvider());
+$app->mount('/', new SessionControllerProvider());
+$app->mount('/tasks/', new TaskControllerProvider());
+$app->mount('/users/', new UserControllerProvider());
 
 return $app;
