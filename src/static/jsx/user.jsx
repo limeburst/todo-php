@@ -13,16 +13,15 @@ class Task extends React.Component {
 
 class TaskList extends React.Component {
     render() {
-        let rows = [];
-        for (const task of this.props.tasks) {
-            rows.push(<Task
+        const tasks = this.props.tasks.map(
+            (task) => <Task
                 id={task.id}
                 key={task.id}
                 name={task.name}
                 done={task.done}
-            />);
-        }
-        return (<ul>{rows}</ul>);
+            />
+        );
+        return (<ul>{tasks}</ul>);
     }
 }
 
