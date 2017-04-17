@@ -11,11 +11,13 @@
         display: inline;
       }
     </style>
-    {% if current_user(app) %}
     <script type="application/javascript">
-        const username = '{{ current_user(app).username }}';
+      {% if current_user(app) %}
+      const username = '{{ current_user(app).username }}';
+      {% else %}
+      const username = null;
+      {% endif %}
     </script>
-    {% endif %}
   {% endblock %}
 </head>
 <body>
