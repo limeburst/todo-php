@@ -13,15 +13,19 @@ class Task extends React.Component {
 
 class TaskList extends React.Component {
     render() {
-        const tasks = this.props.tasks.map(
-            (task) => <Task
-                id={task.id}
-                key={task.id}
-                name={task.name}
-                done={task.done}
-            />
-        );
-        return (<ul>{tasks}</ul>);
+        if (this.props.tasks.length) {
+            const tasks = this.props.tasks.map(
+                (task) => <Task
+                    id={task.id}
+                    key={task.id}
+                    name={task.name}
+                    done={task.done}
+                />
+            );
+            return (<ul>{tasks}</ul>);
+        } else {
+            return <p>no done or doing tasks.</p>;
+        }
     }
 }
 
