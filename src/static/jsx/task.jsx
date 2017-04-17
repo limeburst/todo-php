@@ -58,12 +58,13 @@ class TaskDoneButton extends React.Component {
 class TaskList extends React.Component {
     render() {
         if (this.props.tasks.length) {
-            const tasks = this.props.tasks.map(
-                (task) => (
-                    <Task key={task.id} task={task} />
-                )
+            return (
+                <ul id="tasks">
+                    {this.props.tasks.map((task) =>
+                        <Task key={task.id} task={task} />
+                    )}
+                </ul>
             );
-            return (<ul id="tasks">{tasks}</ul>);
         } else {
             return <p>no done or doing tasks.</p>;
         }
