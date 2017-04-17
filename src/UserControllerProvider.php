@@ -63,6 +63,7 @@ class UserControllerProvider implements ControllerProviderInterface
                 'id' => $task->id,
                 'name' => $task->name,
                 'done' => $task->done,
+                'owner' => $task->owner->username,
             ];
         }, $user->tasks->getValues());
         return $app->json(array_reverse($tasks));

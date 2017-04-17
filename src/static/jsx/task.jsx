@@ -2,20 +2,24 @@ import React from 'react';
 
 class Task extends React.Component {
     render() {
-        if (this.props.task.done) {
-            return (
-                <li>
-                    <TaskDoingButton task={this.props.task} />
-                    <TaskName task={this.props.task} />
-                </li>
-            );
+        if (this.props.task.owner === username) {
+            if (this.props.task.done) {
+                return (
+                    <li>
+                        <TaskDoingButton task={this.props.task} />
+                        <TaskName task={this.props.task} />
+                    </li>
+                );
+            } else {
+                return (
+                    <li>
+                        <TaskDoneButton task={this.props.task} />
+                        <TaskName task={this.props.task} />
+                    </li>
+                );
+            }
         } else {
-            return (
-                <li>
-                    <TaskDoneButton task={this.props.task} />
-                    <TaskName task={this.props.task} />
-                </li>
-            );
+            return <li><TaskName task={this.props.task} /></li>;
         }
     }
 }

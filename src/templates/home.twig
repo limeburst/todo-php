@@ -1,14 +1,5 @@
 {% extends "base.twig" %}
 
-{% block head %}
-  {{ parent() }}
-  {% if current_user(app) %}
-    <script type="application/javascript">
-        const username = '{{ current_user(app).username }}';
-    </script>
-  {% endif %}
-{% endblock %}
-
 {% block content %}
   {% if current_user(app) %}
     <h2>tasks</h2>
