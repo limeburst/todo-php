@@ -2,12 +2,21 @@ import React from 'react';
 
 class Task extends React.Component {
     render() {
-        return (
-            <li>
-                <TaskDoneButton task={this.props.task} />
-                <TaskName task={this.props.task} />
-            </li>
-        );
+        if (this.props.task.done) {
+            return (
+                <li>
+                    <TaskDoingButton task={this.props.task} />
+                    <TaskName task={this.props.task} />
+                </li>
+            );
+        } else {
+            return (
+                <li>
+                    <TaskDoneButton task={this.props.task} />
+                    <TaskName task={this.props.task} />
+                </li>
+            );
+        }
     }
 }
 
@@ -16,6 +25,17 @@ class TaskName extends React.Component {
         let className = this.props.task.done ? "done": "doing";
         return (
             <span className={className}>{this.props.task.name}</span>
+        );
+    }
+}
+
+class TaskDoingButton extends React.Component {
+    render() {
+        return (
+            <form action="/tasks/doing/" method="post">
+                <button type="submit">doing</button>
+                <input type="hidden" value={this.props.task.id} name="id" />
+            </form>
         );
     }
 }
@@ -46,4 +66,4 @@ class TaskList extends React.Component {
     }
 }
 
-export { TaskName, TaskDoneButton, TaskList };
+export { TaskName, TaskDoneButton, TaskDoingButton, TaskList };

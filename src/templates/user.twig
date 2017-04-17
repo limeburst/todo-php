@@ -4,9 +4,25 @@
   <h2>{{ user.name }} ({{ user.username }})</h2>
   <div id="root">
     {% if user.tasks|length > 0 %}
-      <ul>
+      <ul id="tasks">
         {% for task in user.tasks|reverse %}
-          <li class="{% if task.done %}done{% else %}doing{% endif %}">{{ task.name }}</li>
+          {% if task.done %}
+            <li class="done">
+              <form action="{{ path('unfinish_task') }}" method="post">
+                <button type="submit">doing</button>
+                <input type="hidden" value="{{ task.id }}" name="id" id="task_id">
+              </form>
+              {{ task.name }}
+            </li>
+          {% else %}
+            <li class="doing">
+              <form action="{{ path('finish_task') }}" method="post">
+                <button type="submit">done!</button>
+                <input type="hidden" value="{{ task.id }}" name="id" id="task_id">
+              </form>
+              {{ task.name }}
+            </li>
+          {% endif %}
         {% endfor %}
       </ul>
     {% else %}
