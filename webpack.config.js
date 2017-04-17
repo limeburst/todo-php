@@ -3,6 +3,7 @@ var path = require('path');
 module.exports = {
     entry: {
         user: './src/static/jsx/user.jsx',
+        home: './src/static/jsx/home.jsx',
     },
     output: {
         filename: '[name].js',

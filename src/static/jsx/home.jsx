@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 
 import { TaskList } from './task.jsx';
 
-$.get('tasks', function(res) {
+$.get(`/users/${username}/tasks`, function(res) {
     ReactDOM.render(
-        <TaskList tasks={res} />,
+        <TaskList tasks={res.filter((task) => { return !task.done }).reverse()} user={username} />,
         document.getElementById('root')
     );
 });

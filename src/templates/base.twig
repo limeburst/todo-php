@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>todo</title>
-  <style>
-    .done {
-      text-decoration: line-through;
-    }
-  </style>
+  {% block head %}
+    <title>todo</title>
+    <style>
+      .done {
+        text-decoration: line-through;
+      }
+      #tasks form {
+        display: inline;
+      }
+    </style>
+  {% endblock %}
 </head>
 <body>
 <header>

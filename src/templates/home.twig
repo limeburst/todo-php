@@ -1,5 +1,14 @@
 {% extends "base.twig" %}
 
+{% block head %}
+  {{ parent() }}
+  {% if current_user(app) %}
+    <script type="application/javascript">
+        const username = '{{ current_user(app).username }}';
+    </script>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   {% if current_user(app) %}
     <h2>tasks</h2>
@@ -9,6 +18,7 @@
         <button type="submit">add task</button>
       </div>
     </form>
+    <div id="root">
     {% if tasks %}
       <ul>
         {% for task in tasks %}
@@ -26,5 +36,12 @@
     {% endif %}
   {% else %}
     <p>todo.</p>
+  {% endif %}
+  </div>
+{% endblock %}
+
+{% block js %}
+  {% if current_user(app) %}
+    <script src="/dist/home.js"></script>
   {% endif %}
 {% endblock %}
