@@ -31,7 +31,7 @@ class TaskList extends React.Component {
 
 $.get('tasks', function(res) {
     ReactDOM.render(
-        <TaskList name="test" tasks={res} />,
+        <TaskList tasks={res} />,
         document.getElementById('root')
     );
 });
