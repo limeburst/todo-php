@@ -48,6 +48,6 @@ class TaskControllerProvider implements ControllerProviderInterface
         $app['orm.em']->persist($task);
         $app['orm.em']->flush();
         $app['session']->getFlashBag()->add('message', 'task done!');
-        return $app->redirect($app['url_generator']->generate('home'));
+        return $app->redirect($request->headers->get('referer'));
     }
 }
