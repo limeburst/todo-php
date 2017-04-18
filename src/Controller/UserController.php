@@ -6,7 +6,7 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-use Todo\User;
+use Todo\Entity\UserEntity;
 
 class UserController implements ControllerProviderInterface
 {
@@ -22,13 +22,13 @@ class UserController implements ControllerProviderInterface
 
     public function users(Application $app)
     {
-        $users = $app['orm.em']->getRepository('Todo\User')->findAll();
+        $users = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findAll();
         return $app['twig']->render('users.twig', ['users' => $users]);
     }
 
     public function addUser(Application $app, Request $request)
     {
-        $user = new User();
+        $user = new UserEntity();
         $user->name = $request->get('name');
         $user->username = $request->get('username');
         $user->email = $request->get('email');
@@ -50,7 +50,7 @@ class UserController implements ControllerProviderInterface
 
     public function profile(Application $app, $username)
     {
-        $user = $app['orm.em']->getRepository('Todo\User')->findOneBy(['username' => $username]);
+        $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy(['username' => $username]);
         if (!$user) {
             $app->abort(404, 'user does not exist.');
         }
@@ -59,7 +59,7 @@ class UserController implements ControllerProviderInterface
 
     public function tasks(Application $app, $username)
     {
-        $user = $app['orm.em']->getRepository('Todo\User')->findOneBy(['username' => $username]);
+        $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy(['username' => $username]);
         $tasks = array_map(function ($task) use ($user) {
             return [
                 'id' => $task->id,

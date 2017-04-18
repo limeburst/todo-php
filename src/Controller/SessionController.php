@@ -27,7 +27,7 @@ class SessionController implements ControllerProviderInterface
 
     public function login(Application $app, Request $request)
     {
-        $user = $app['orm.em']->getRepository('Todo\User')->findOneBy([
+        $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy([
             'username' => $request->get('username')
         ]);
         if (!$user) {
@@ -58,7 +58,7 @@ class SessionController implements ControllerProviderInterface
     {
         $session_user = $app['session']->get('user');
         if ($session_user and $session_user['id']) {
-            $user = $app['orm.em']->find('Todo\User', $session_user['id']);
+            $user = $app['orm.em']->find('Todo\Entity\UserEntity', $session_user['id']);
             return $user;
         }
         return null;

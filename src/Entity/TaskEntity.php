@@ -1,10 +1,10 @@
 <?php
-namespace Todo;
+namespace Todo\Entity;
 
 /**
  * @Entity @Table(name="tasks")
  */
-class Task
+class TaskEntity
 {
 	/** @Id @Column(type="integer") @GeneratedValue */
 	public $id;
@@ -16,7 +16,7 @@ class Task
 	public $done;
 
 	/**
-	 * @ManyToOne(targetEntity="User", inversedBy="tasks")
+	 * @ManyToOne(targetEntity="UserEntity", inversedBy="tasks")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	public $owner;

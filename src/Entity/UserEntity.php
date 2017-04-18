@@ -1,12 +1,12 @@
 <?php
-namespace Todo;
+namespace Todo\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @Entity @Table(name="users")
  */
-class User
+class UserEntity
 {
     /** @Id @Column(type="integer") @GeneratedValue */
     public $id;
@@ -23,7 +23,7 @@ class User
     /** @Column(type="string", nullable=false) */
     public $password;
 
-	/** @OneToMany(targetEntity="Task", mappedBy="owner") */
+	/** @OneToMany(targetEntity="TaskEntity", mappedBy="owner") */
 	public $tasks;
 
 	public function __construct()

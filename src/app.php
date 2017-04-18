@@ -28,12 +28,12 @@ $app->register(new DoctrineOrmServiceProvider(), [
 		'mappings' => [
 			[
 				'type' => 'annotation',
-				'namespace' => 'Todo\User',
+				'namespace' => 'Todo\Entity\UserEntity',
 				'path' => __DIR__,
 			],
 			[
 				'type' => 'annotation',
-				'namespace' => 'Todo\Task',
+				'namespace' => 'Todo\Entity\TaskEntity',
 				'path' => __DIR__,
 			],
 		],
