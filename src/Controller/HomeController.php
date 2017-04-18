@@ -1,10 +1,10 @@
 <?php
-namespace Todo;
+namespace Todo\Controller;
 
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 
-class HomeControllerProvider implements ControllerProviderInterface
+class HomeController implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
@@ -15,7 +15,7 @@ class HomeControllerProvider implements ControllerProviderInterface
 
     public function home(Application $app)
     {
-        $user = SessionControllerProvider::getCurrentUser($app);
+        $user = SessionController::getCurrentUser($app);
         if (!$user) {
             return $app['twig']->render('home.twig');
         }

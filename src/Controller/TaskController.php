@@ -1,11 +1,13 @@
 <?php
-namespace Todo;
+namespace Todo\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
-class TaskControllerProvider implements ControllerProviderInterface
+use Todo\Task;
+
+class TaskController implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
@@ -18,7 +20,7 @@ class TaskControllerProvider implements ControllerProviderInterface
 
     public function addTask(Application $app, Request $request)
     {
-        $user = SessionControllerProvider::getCurrentUser($app);
+        $user = SessionController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
             return $app->redirect($app['url_generator']->generate('login_page'));
@@ -35,7 +37,7 @@ class TaskControllerProvider implements ControllerProviderInterface
 
     public function finishTask(Application $app, Request $request)
     {
-        $user = SessionControllerProvider::getCurrentUser($app);
+        $user = SessionController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
             return $app->redirect($app['url_generator']->generate('login_page'));
@@ -54,7 +56,7 @@ class TaskControllerProvider implements ControllerProviderInterface
 
     public function unfinishTask(Application $app, Request $request)
     {
-        $user = SessionControllerProvider::getCurrentUser($app);
+        $user = SessionController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
             return $app->redirect($app['url_generator']->generate('login_page'));

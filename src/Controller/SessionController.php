@@ -1,11 +1,11 @@
 <?php
-namespace Todo;
+namespace Todo\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
-class SessionControllerProvider implements ControllerProviderInterface
+class SessionController implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {

@@ -9,10 +9,10 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 
-use Todo\HomeControllerProvider;
-use Todo\SessionControllerProvider;
-use Todo\TaskControllerProvider;
-use Todo\UserControllerProvider;
+use Todo\Controller\HomeController;
+use Todo\Controller\SessionController;
+use Todo\Controller\TaskController;
+use Todo\Controller\UserController;
 
 $app = new Application();
 $app['debug'] = true;
@@ -46,12 +46,12 @@ $app->register(new TwigServiceProvider(), [
 	'twig.options' => ['debug' => true],
 ]);
 $app['twig']->addFunction(
-    new Twig_Function('current_user', 'Todo\SessionControllerProvider::getCurrentUser')
+    new Twig_Function('current_user', 'Todo\Controller\SessionController::getCurrentUser')
 );
 
-$app->mount('/', new HomeControllerProvider());
-$app->mount('/', new SessionControllerProvider());
-$app->mount('/tasks/', new TaskControllerProvider());
-$app->mount('/users/', new UserControllerProvider());
+$app->mount('/', new HomeController());
+$app->mount('/', new SessionController());
+$app->mount('/tasks/', new TaskController());
+$app->mount('/users/', new UserController());
 
 return $app;

@@ -1,12 +1,14 @@
 <?php
-namespace Todo;
+namespace Todo\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserControllerProvider implements ControllerProviderInterface
+use Todo\User;
+
+class UserController implements ControllerProviderInterface
 {
     public function connect(Application $app)
     {
