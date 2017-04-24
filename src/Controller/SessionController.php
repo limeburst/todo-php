@@ -32,7 +32,8 @@ class SessionController implements ControllerProviderInterface
     {
         if ($this->getCurrentUser($app)) {
             $app['session']->getFlashBag()->add('message', 'already logged in');
-            return $app->redirect($app['url_generator']->generate('home'));
+            $home_url = $app['url_generator']->generate('home');
+            return $app->redirect($home_url);
         }
         return $app['twig']->render('login.twig');
     }
@@ -46,17 +47,19 @@ class SessionController implements ControllerProviderInterface
     {
         $u_username = $request->get('username');
         $user = UserRepository::getRepository($app)->findOneByUsername($u_username);
+        $login_page_url = $app['url_generator']->generate('login_page');
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'no such user');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            return $app->redirect($login_page_url);
         }
         if (!password_verify($request->get('password'), $user->password)) {
             $app['session']->getFlashBag()->add('message', 'wrong password');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            return $app->redirect($login_page_url);
         }
         $app['session']->getFlashBag()->add('message', 'login success');
         $app['session']->set('user', ['id' => $user->id]);
-        return $app->redirect($app['url_generator']->generate('home'));
+        $home_url = $app['url_generator']->generate('home');
+        return $app->redirect($home_url);
     }
 
     /**
@@ -65,13 +68,14 @@ class SessionController implements ControllerProviderInterface
      */
     public function logout(Application $app)
     {
+        $login_page_url = $app['url_generator']->generate('login_page');
         if (!$this->getCurrentUser($app)) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            return $app->redirect($login_page_url);
         }
         $app['session']->remove('user');
         $app['session']->getFlashBag()->add('message', 'successfully logged out');
-        return $app->redirect($app['url_generator']->generate('login_page'));
+        return $app->redirect($login_page_url);
     }
 
     /**

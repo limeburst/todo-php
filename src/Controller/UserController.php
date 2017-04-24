@@ -49,19 +49,21 @@ class UserController implements ControllerProviderInterface
         $u_email = $request->get('email');
         $u_password = $request->get('password');
         $user = new UserEntity($u_name, $u_username, $u_email, $u_password);
+        $login_page_url = $app['url_generator']->generate('login_page');
         if (!$user->name || !$user->username || !$user->email || !$user->password) {
             $app['session']->getFlashBag()->add('message', 'please fill in all fields');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            return $app->redirect($login_page_url);
         }
         $app['orm.em']->persist($user);
         try {
             $app['orm.em']->flush();
         } catch (UniqueConstraintViolationException $e) {
             $app['session']->getFlashBag()->add('message', 'choose another username or email');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            return $app->redirect($login_page_url);
         }
         $app['session']->set('user', ['id' => $user->id]);
-        return $app->redirect($app['url_generator']->generate('users'));
+        $users_url = $app['url_generator']->generate('users');
+        return $app->redirect($users_url);
     }
 
     /**

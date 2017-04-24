@@ -35,14 +35,16 @@ class TaskController implements ControllerProviderInterface
         $user = SessionController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            $login_page_url = $app['url_generator']->generate('login_page');
+            return $app->redirect($login_page_url);
         }
         $t_name = $request->get('name');
         $task = new TaskEntity($t_name, $user, false);
         $app['orm.em']->persist($task);
         $app['orm.em']->flush();
         $app['session']->getFlashBag()->add('message', 'task added');
-        return $app->redirect($app['url_generator']->generate('home'));
+        $home_url = $app['url_generator']->generate('home');
+        return $app->redirect($home_url);
     }
 
     /**
@@ -55,19 +57,22 @@ class TaskController implements ControllerProviderInterface
         $user = SessionController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            $login_page_url = $app['url_generator']->generate('login_page');
+            return $app->redirect($login_page_url);
         }
         $u_id = $request->get('id');
         $task = TaskRepository::getRepository($app)->findOneById($u_id);
         if ($task->owner !== $user) {
             $app['session']->getFlashBag()->add('message', 'you are not the task owner');
-            return $app->redirect($app['url_generator']->generate('home'));
+            $home_url = $app['url_generator']->generate('home');
+            return $app->redirect($home_url);
         }
         $task->done = true;
         $app['orm.em']->persist($task);
         $app['orm.em']->flush();
         $app['session']->getFlashBag()->add('message', 'task done!');
-        return $app->redirect($request->headers->get('referer'));
+        $referer_url = $request->headers->get('referer');
+        return $app->redirect($referer_url);
     }
 
     /**
@@ -80,18 +85,21 @@ class TaskController implements ControllerProviderInterface
         $user = SessionController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
-            return $app->redirect($app['url_generator']->generate('login_page'));
+            $login_page_url = $app['url_generator']->generate('login_page');
+            return $app->redirect($login_page_url);
         }
         $u_id = $request->get('id');
         $task = TaskRepository::getRepository($app)->findOneById($u_id);
         if ($task->owner !== $user) {
             $app['session']->getFlashBag()->add('message', 'you are not the task owner');
-            return $app->redirect($app['url_generator']->generate('home'));
+            $home_url = $app['url_generator']->generate('home');
+            return $app->redirect($home_url);
         }
         $task->done = false;
         $app['orm.em']->persist($task);
         $app['orm.em']->flush();
         $app['session']->getFlashBag()->add('message', 'task undone');
-        return $app->redirect($request->headers->get('referer'));
+        $referer_url = $request->headers->get('referer');
+        return $app->redirect($referer_url);
     }
 }
