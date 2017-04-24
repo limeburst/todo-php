@@ -11,6 +11,10 @@ use Todo\Entity\TaskEntity;
 
 class TaskController implements ControllerProviderInterface
 {
+    /**
+     * @param Application $app
+     * @return mixed
+     */
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
@@ -20,6 +24,11 @@ class TaskController implements ControllerProviderInterface
         return $controllers;
     }
 
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function addTask(Application $app, Request $request)
     {
         $user = SessionController::getCurrentUser($app);
@@ -35,6 +44,11 @@ class TaskController implements ControllerProviderInterface
         return $app->redirect($app['url_generator']->generate('home'));
     }
 
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function finishTask(Application $app, Request $request)
     {
         $user = SessionController::getCurrentUser($app);
@@ -54,6 +68,11 @@ class TaskController implements ControllerProviderInterface
         return $app->redirect($request->headers->get('referer'));
     }
 
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function unfinishTask(Application $app, Request $request)
     {
         $user = SessionController::getCurrentUser($app);

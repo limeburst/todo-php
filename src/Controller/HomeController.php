@@ -8,6 +8,10 @@ use Silex\Api\ControllerProviderInterface;
 
 class HomeController implements ControllerProviderInterface
 {
+    /**
+     * @param Application $app
+     * @return mixed
+     */
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
@@ -15,6 +19,10 @@ class HomeController implements ControllerProviderInterface
         return $controllers;
     }
 
+    /**
+     * @param Application $app
+     * @return mixed
+     */
     public function home(Application $app)
     {
         $user = SessionController::getCurrentUser($app);

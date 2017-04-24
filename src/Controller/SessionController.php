@@ -9,6 +9,10 @@ use Silex\Api\ControllerProviderInterface;
 
 class SessionController implements ControllerProviderInterface
 {
+    /**
+     * @param Application $app
+     * @return mixed
+     */
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
@@ -18,6 +22,10 @@ class SessionController implements ControllerProviderInterface
         return $controllers;
     }
 
+    /**
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function loginPage(Application $app)
     {
         if ($this->getCurrentUser($app)) {
@@ -27,6 +35,11 @@ class SessionController implements ControllerProviderInterface
         return $app['twig']->render('login.twig');
     }
 
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function login(Application $app, Request $request)
     {
         $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy([
@@ -45,6 +58,10 @@ class SessionController implements ControllerProviderInterface
         return $app->redirect($app['url_generator']->generate('home'));
     }
 
+    /**
+     * @param Application $app
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function logout(Application $app)
     {
         if (!$this->getCurrentUser($app)) {
@@ -56,6 +73,10 @@ class SessionController implements ControllerProviderInterface
         return $app->redirect($app['url_generator']->generate('login_page'));
     }
 
+    /**
+     * @param Application $app
+     * @return \Todo\Entity\UserEntity|null
+     */
     public static function getCurrentUser(Application $app)
     {
         $session_user = $app['session']->get('user');

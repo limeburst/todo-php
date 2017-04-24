@@ -12,6 +12,10 @@ use Todo\Entity\UserEntity;
 
 class UserController implements ControllerProviderInterface
 {
+    /**
+     * @param Application $app
+     * @return mixed
+     */
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
@@ -22,12 +26,21 @@ class UserController implements ControllerProviderInterface
         return $controllers;
     }
 
+    /**
+     * @param Application $app
+     * @return mixed
+     */
     public function users(Application $app)
     {
         $users = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findAll();
         return $app['twig']->render('users.twig', ['users' => $users]);
     }
 
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function addUser(Application $app, Request $request)
     {
         $u_name = $request->get('name');
@@ -50,6 +63,11 @@ class UserController implements ControllerProviderInterface
         return $app->redirect($app['url_generator']->generate('users'));
     }
 
+    /**
+     * @param Application $app
+     * @param $username
+     * @return mixed
+     */
     public function profile(Application $app, $username)
     {
         $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy(['username' => $username]);
@@ -59,6 +77,11 @@ class UserController implements ControllerProviderInterface
         return $app['twig']->render('user.twig', ['user' => $user]);
     }
 
+    /**
+     * @param Application $app
+     * @param $username
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function tasks(Application $app, $username)
     {
         $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy(['username' => $username]);

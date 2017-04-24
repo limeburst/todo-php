@@ -23,6 +23,12 @@ class TaskEntity
 	 */
 	public $owner;
 
+    /**
+     * TaskEntity constructor.
+     * @param string $name
+     * @param UserEntity $owner
+     * @param bool $done
+     */
 	public function __construct(string $name, UserEntity $owner, bool $done)
     {
         $this->name = $name;

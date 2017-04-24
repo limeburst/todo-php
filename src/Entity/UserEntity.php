@@ -28,6 +28,13 @@ class UserEntity
 	/** @OneToMany(targetEntity="TaskEntity", mappedBy="owner") */
 	public $tasks;
 
+    /**
+     * UserEntity constructor.
+     * @param string $name
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     */
 	public function __construct(string $name, string $username, string $email, string $password)
     {
         $this->name = $name;
