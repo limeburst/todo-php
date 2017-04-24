@@ -28,8 +28,12 @@ class UserEntity
 	/** @OneToMany(targetEntity="TaskEntity", mappedBy="owner") */
 	public $tasks;
 
-	public function __construct()
+	public function __construct(string $name, string $username, string $email, string $password)
     {
+        $this->name = $name;
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
 		$this->tasks = new ArrayCollection();
 	}
 }

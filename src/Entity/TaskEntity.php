@@ -22,4 +22,11 @@ class TaskEntity
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	public $owner;
+
+	public function __construct(string $name, UserEntity $owner, bool $done)
+    {
+        $this->name = $name;
+        $this->owner = $owner;
+        $this->done = $done;
+    }
 }

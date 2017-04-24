@@ -30,11 +30,11 @@ class UserController implements ControllerProviderInterface
 
     public function addUser(Application $app, Request $request)
     {
-        $user = new UserEntity();
-        $user->name = $request->get('name');
-        $user->username = $request->get('username');
-        $user->email = $request->get('email');
-        $user->password = password_hash($request->get('password'), PASSWORD_DEFAULT);
+        $u_name = $request->get('name');
+        $u_username = $request->get('username');
+        $u_email = $request->get('email');
+        $u_password = $request->get('password');
+        $user = new UserEntity($u_name, $u_username, $u_email, $u_password);
         if (!$user->name || !$user->username || !$user->email || !$user->password) {
             $app['session']->getFlashBag()->add('message', 'please fill in all fields');
             return $app->redirect($app['url_generator']->generate('login_page'));
