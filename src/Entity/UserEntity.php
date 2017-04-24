@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Todo\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
