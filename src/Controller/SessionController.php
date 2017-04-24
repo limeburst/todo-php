@@ -7,6 +7,8 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
+use Todo\Repository\UserRepository;
+
 class SessionController implements ControllerProviderInterface
 {
     /**
@@ -42,9 +44,8 @@ class SessionController implements ControllerProviderInterface
      */
     public function login(Application $app, Request $request)
     {
-        $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy([
-            'username' => $request->get('username')
-        ]);
+        $u_username = $request->get('username');
+        $user = UserRepository::getRepository($app)->findOneByUsername($u_username);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'no such user');
             return $app->redirect($app['url_generator']->generate('login_page'));
@@ -75,13 +76,13 @@ class SessionController implements ControllerProviderInterface
 
     /**
      * @param Application $app
-     * @return \Todo\Entity\UserEntity|null
+     * @return null|object
      */
     public static function getCurrentUser(Application $app)
     {
         $session_user = $app['session']->get('user');
         if ($session_user and $session_user['id']) {
-            $user = $app['orm.em']->find('Todo\Entity\UserEntity', $session_user['id']);
+            $user = UserRepository::getRepository($app)->findOneById($session_user['id']);
             return $user;
         }
         return null;

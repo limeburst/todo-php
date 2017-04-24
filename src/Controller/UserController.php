@@ -9,6 +9,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 use Todo\Entity\UserEntity;
+use Todo\Repository\UserRepository;
 
 class UserController implements ControllerProviderInterface
 {
@@ -32,7 +33,7 @@ class UserController implements ControllerProviderInterface
      */
     public function users(Application $app)
     {
-        $users = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findAll();
+        $users = UserRepository::getRepository($app)->findAll();
         return $app['twig']->render('users.twig', ['users' => $users]);
     }
 
@@ -70,7 +71,7 @@ class UserController implements ControllerProviderInterface
      */
     public function profile(Application $app, $username)
     {
-        $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy(['username' => $username]);
+        $user = UserRepository::getRepository($app)->findOneByUsername($username);
         if (!$user) {
             $app->abort(404, 'user does not exist.');
         }
@@ -84,7 +85,7 @@ class UserController implements ControllerProviderInterface
      */
     public function tasks(Application $app, $username)
     {
-        $user = $app['orm.em']->getRepository('Todo\Entity\UserEntity')->findOneBy(['username' => $username]);
+        $user = UserRepository::getRepository($app)->findOneByUsername($username);
         $tasks = array_map(function ($task) use ($user) {
             return [
                 'id' => $task->id,

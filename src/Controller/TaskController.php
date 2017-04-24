@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
 use Todo\Entity\TaskEntity;
+use Todo\Repository\TaskRepository;
 
 class TaskController implements ControllerProviderInterface
 {
@@ -56,7 +57,8 @@ class TaskController implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('message', 'not logged in');
             return $app->redirect($app['url_generator']->generate('login_page'));
         }
-        $task = $app['orm.em']->find('Todo\Entity\TaskEntity', $request->get('id'));
+        $u_id = $request->get('id');
+        $task = TaskRepository::getRepository($app)->findOneById($u_id);
         if ($task->owner !== $user) {
             $app['session']->getFlashBag()->add('message', 'you are not the task owner');
             return $app->redirect($app['url_generator']->generate('home'));
@@ -80,7 +82,8 @@ class TaskController implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('message', 'not logged in');
             return $app->redirect($app['url_generator']->generate('login_page'));
         }
-        $task = $app['orm.em']->find('Todo\Entity\TaskEntity', $request->get('id'));
+        $u_id = $request->get('id');
+        $task = TaskRepository::getRepository($app)->findOneById($u_id);
         if ($task->owner !== $user) {
             $app['session']->getFlashBag()->add('message', 'you are not the task owner');
             return $app->redirect($app['url_generator']->generate('home'));
