@@ -67,7 +67,7 @@ class TaskController implements ControllerProviderInterface
             $home_url = $app['url_generator']->generate('home');
             return $app->redirect($home_url);
         }
-        $task->done = true;
+        $task->is_done = true;
         $app['orm.em']->persist($task);
         $app['orm.em']->flush();
         $app['session']->getFlashBag()->add('message', 'task done!');
@@ -95,7 +95,7 @@ class TaskController implements ControllerProviderInterface
             $home_url = $app['url_generator']->generate('home');
             return $app->redirect($home_url);
         }
-        $task->done = false;
+        $task->is_done = false;
         $app['orm.em']->persist($task);
         $app['orm.em']->flush();
         $app['session']->getFlashBag()->add('message', 'task undone');

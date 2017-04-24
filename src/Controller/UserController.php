@@ -92,7 +92,7 @@ class UserController implements ControllerProviderInterface
             return [
                 'id' => $task->id,
                 'name' => $task->name,
-                'done' => $task->done,
+                'done' => $task->is_done,
                 'owner' => $task->owner->username,
             ];
         }, $user->tasks->getValues());

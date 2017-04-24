@@ -3,7 +3,7 @@ import React from 'react';
 class Task extends React.Component {
     render() {
         if (this.props.task.owner === username) {
-            if (this.props.task.done) {
+            if (this.props.task.is_done) {
                 return (
                     <li>
                         <TaskDoingButton task={this.props.task} />
@@ -26,7 +26,7 @@ class Task extends React.Component {
 
 class TaskName extends React.Component {
     render() {
-        let className = this.props.task.done ? "done": "doing";
+        let className = this.props.task.is_done ? "done": "doing";
         return (
             <span className={className}>{this.props.task.name}</span>
         );

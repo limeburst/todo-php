@@ -7,7 +7,7 @@
       <ul id="tasks">
         {% for task in user.tasks|reverse %}
           {% if task.owner == current_user(app) %}
-            {% if task.done %}
+            {% if task.is_done %}
               <li class="done">
                 <form action="{{ path('unfinish_task') }}" method="post">
                   <button type="submit">doing</button>
@@ -25,7 +25,7 @@
               </li>
             {% endif %}
           {% else %}
-            <li class="{% if task.done %}done{% else %}doing{% endif %}">
+            <li class="{% if task.is_done %}done{% else %}doing{% endif %}">
               {{ task.name }}
             </li>
           {% endif %}

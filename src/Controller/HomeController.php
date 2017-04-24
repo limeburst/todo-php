@@ -32,7 +32,7 @@ class HomeController implements ControllerProviderInterface
         $tasks = $user->tasks->getValues();
         if ($tasks) {
             $doing = array_filter($tasks, function ($task) {
-                return !$task->done;
+                return !$task->is_done;
             });
         } else {
             $doing = [];

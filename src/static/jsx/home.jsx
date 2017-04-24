@@ -6,7 +6,7 @@ import { TaskList } from './task.jsx';
 
 $.get(`/users/${username}/tasks`, function(res) {
     ReactDOM.render(
-        <TaskList tasks={res.filter((task) => { return !task.done }).reverse()} user={username} />,
+        <TaskList tasks={res.filter((task) => { return !task.is_done }).reverse()} user={username} />,
         document.getElementById('root')
     );
 });

@@ -15,7 +15,7 @@ class TaskEntity
 	public $name;
 
 	/** @Column(type="boolean", nullable=false, options={"default": false}) */
-	public $done;
+	public $is_done;
 
 	/**
 	 * @ManyToOne(targetEntity="UserEntity", inversedBy="tasks")
@@ -27,12 +27,12 @@ class TaskEntity
      * TaskEntity constructor.
      * @param string $name
      * @param UserEntity $owner
-     * @param bool $done
+     * @param bool $is_done
      */
-	public function __construct(string $name, UserEntity $owner, bool $done)
+	public function __construct(string $name, UserEntity $owner, bool $is_done)
     {
         $this->name = $name;
         $this->owner = $owner;
-        $this->done = $done;
+        $this->is_done = $is_done;
     }
 }
