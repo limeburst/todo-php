@@ -21,7 +21,7 @@ class TaskRepository extends EntityRepository
      * @param int $id
      * @return null|object
      */
-    public function findOneById(integer $id)
+    public function findOneById(int $id)
     {
         return $this->find($id);
     }
