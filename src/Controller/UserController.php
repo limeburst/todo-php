@@ -8,9 +8,8 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-use Todo\Entity\UserEntity;
-use Todo\EntityManagerProvider;
 use Todo\Repository\UserRepository;
+use Todo\Service\UserAppService;
 
 class UserController implements ControllerProviderInterface
 {
@@ -49,16 +48,13 @@ class UserController implements ControllerProviderInterface
         $u_username = $request->get('username');
         $u_email = $request->get('email');
         $u_password = $request->get('password');
-        $user = new UserEntity($u_name, $u_username, $u_email, $u_password);
         $login_page_url = $app['url_generator']->generate('login_page');
-        if (!$user->name || !$user->username || !$user->email || !$user->password) {
+        if (!$u_name || !$u_username || !$u_email || !$u_password) {
             $app['session']->getFlashBag()->add('message', 'please fill in all fields');
             return $app->redirect($login_page_url);
         }
-        $em = EntityManagerProvider::getEntityManager();
-        $em->persist($user);
         try {
-            $em->flush();
+            $user = UserAppService::saveUser($u_name, $u_username, $u_email, $u_password);
         } catch (UniqueConstraintViolationException $e) {
             $app['session']->getFlashBag()->add('message', 'choose another username or email');
             return $app->redirect($login_page_url);
