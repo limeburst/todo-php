@@ -7,7 +7,6 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
-use Todo\Repository\TaskRepository;
 use Todo\Service\TaskAppService;
 
 class TaskController implements ControllerProviderInterface
@@ -85,7 +84,6 @@ class TaskController implements ControllerProviderInterface
             return $app->redirect($login_page_url);
         }
         $t_id = (int) $request->get('id');
-        $task = TaskRepository::getRepository()->findOneById($t_id);
         try {
             TaskAppService::markTaskAsDoing($t_id, $user->id);
         } catch (\Exception $e) {
