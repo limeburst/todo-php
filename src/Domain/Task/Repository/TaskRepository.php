@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Todo\Domain\Task\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
+use Todo\BaseEntityRepository;
 use Todo\EntityManagerProvider;
 use Todo\Domain\Task\Model\TaskEntity;
 
-class TaskRepository extends EntityRepository
+class TaskRepository extends BaseEntityRepository
 {
     /**
      * @return TaskRepository

@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace Todo\Domain\User\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
+use Todo\BaseEntityRepository;
 use Todo\EntityManagerProvider;
 use Todo\Domain\User\Model\UserEntity;
 
-class UserRepository extends EntityRepository
+class UserRepository extends BaseEntityRepository
 {
     /**
      * @return UserRepository

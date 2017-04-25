@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Todo\Application\User;
 
-use Todo\EntityManagerProvider;
+use Todo\Domain\User\Repository\UserRepository;
 use Todo\Domain\User\Model\UserEntity;
 
 class UserAppService
@@ -18,9 +18,7 @@ class UserAppService
     public static function saveUser(string $u_name, string $u_username, string $u_email, string $u_password)
     {
         $user = new UserEntity($u_name, $u_username, $u_email, $u_password);
-        $em = EntityManagerProvider::getEntityManager();
-        $em->persist($user);
-        $em->flush();
+        UserRepository::getRepository()->save($user);
         return $user;
     }
 }

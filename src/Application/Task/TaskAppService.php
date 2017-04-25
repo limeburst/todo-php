@@ -18,11 +18,9 @@ class TaskAppService
     public static function saveTask(string $t_name, int $u_id, bool $t_done)
     {
 
-        $em = EntityManagerProvider::getEntityManager();
         $user = UserRepository::getRepository()->findOneById($u_id);
         $task = new TaskEntity($t_name, $user, $t_done);
-        $em->persist($task);
-        $em->flush();
+        TaskRepository::getRepository()->save($task);
     }
 
     /**
@@ -37,9 +35,7 @@ class TaskAppService
             throw new \Exception('you are not the task owner');
         }
         $task->markAsDone();
-        $em = EntityManagerProvider::getEntityManager();
-        $em->persist($task);
-        $em->flush();
+        TaskRepository::getRepository()->save($task);
     }
 
     /**
@@ -54,8 +50,6 @@ class TaskAppService
             throw new \Exception('you are not the task owner');
         }
         $task->markAsDoing();
-        $em = EntityManagerProvider::getEntityManager();
-        $em->persist($task);
-        $em->flush();
+        TaskRepository::getRepository()->save($task);
     }
 }
