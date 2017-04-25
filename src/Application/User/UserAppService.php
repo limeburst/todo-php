@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Todo\Service;
+namespace Todo\Application\User;
 
-use Todo\Entity\UserEntity;
 use Todo\EntityManagerProvider;
+use Todo\Domain\User\Model\UserEntity;
 
 class UserAppService
 {

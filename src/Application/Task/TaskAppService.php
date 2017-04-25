@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Todo\Service;
+namespace Todo\Application\Task;
 
 use Todo\EntityManagerProvider;
-use Todo\Repository\TaskRepository;
-use Todo\Entity\TaskEntity;
-use Todo\Repository\UserRepository;
+use Todo\Domain\Task\Model\TaskEntity;
+use Todo\Domain\Task\Repository\TaskRepository;
+use Todo\Domain\User\Repository\UserRepository;
 
 class TaskAppService
 {

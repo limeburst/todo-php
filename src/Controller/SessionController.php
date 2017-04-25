@@ -7,7 +7,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
-use Todo\Repository\UserRepository;
+use Todo\Domain\User\Repository\UserRepository;
 
 class SessionController implements ControllerProviderInterface
 {

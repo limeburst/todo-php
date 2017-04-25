@@ -8,8 +8,8 @@ use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
-use Todo\Repository\UserRepository;
-use Todo\Service\UserAppService;
+use Todo\Domain\User\Repository\UserRepository;
+use Todo\Application\User\UserAppService;
 
 class UserController implements ControllerProviderInterface
 {

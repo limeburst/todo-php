@@ -7,7 +7,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
-use Todo\Service\TaskAppService;
+use Todo\Application\Task\TaskAppService;
 
 class TaskController implements ControllerProviderInterface
 {

@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Todo\Entity;
+namespace Todo\Domain\Task\Model;
+
+use Todo\Domain\User\Model\UserEntity;
 
 /**
  * @Entity @Table(name="tasks")
@@ -18,7 +20,7 @@ class TaskEntity
 	public $is_done;
 
 	/**
-	 * @ManyToOne(targetEntity="UserEntity", inversedBy="tasks")
+	 * @ManyToOne(targetEntity="Todo\Domain\User\Model\UserEntity", inversedBy="tasks")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	public $owner;

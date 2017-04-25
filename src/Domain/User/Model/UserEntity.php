@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Todo\Entity;
+namespace Todo\Domain\User\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -25,7 +25,7 @@ class UserEntity
     /** @Column(type="string", nullable=false) */
     public $password;
 
-	/** @OneToMany(targetEntity="TaskEntity", mappedBy="owner") */
+	/** @OneToMany(targetEntity="Todo\Domain\Task\Model\TaskEntity", mappedBy="owner") */
 	public $tasks;
 
     /**

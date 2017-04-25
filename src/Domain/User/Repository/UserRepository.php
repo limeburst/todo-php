@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Todo\Repository;
+namespace Todo\Domain\User\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
 use Todo\EntityManagerProvider;
-use Todo\Entity\UserEntity;
+use Todo\Domain\User\Model\UserEntity;
 
 class UserRepository extends EntityRepository
 {
@@ -16,7 +16,7 @@ class UserRepository extends EntityRepository
     public static function getRepository()
     {
         $em = EntityManagerProvider::getEntityManager();
-        return $em->getRepository('Todo\Entity\UserEntity');
+        return $em->getRepository('Todo\Domain\User\Model\UserEntity');
     }
 
     /**
