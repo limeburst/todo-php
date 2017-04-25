@@ -4,17 +4,19 @@ declare(strict_types=1);
 namespace Todo\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Silex\Application;
+
+use Todo\EntityManagerProvider;
+use Todo\Entity\UserEntity;
 
 class UserRepository extends EntityRepository
 {
     /**
-     * @param Application $app
      * @return UserRepository
      */
-    public static function getRepository(Application $app)
+    public static function getRepository()
     {
-        return $app['orm.em']->getRepository('Todo\Entity\UserEntity');
+        $em = EntityManagerProvider::getEntityManager();
+        return $em->getRepository('Todo\Entity\UserEntity');
     }
 
     /**

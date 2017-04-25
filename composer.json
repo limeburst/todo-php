@@ -3,7 +3,6 @@
     "psr-4": {"Todo\\": "src/"}
   },
   "require": {
-    "dflydev/doctrine-orm-service-provider": "^2.0",
     "doctrine/orm": "2.4.*",
     "silex/silex": "~2.0",
     "symfony/twig-bridge": "^3.2",

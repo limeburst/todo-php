@@ -9,6 +9,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 
 use Todo\Entity\UserEntity;
+use Todo\EntityManagerProvider;
 use Todo\Repository\UserRepository;
 
 class UserController implements ControllerProviderInterface
@@ -33,7 +34,7 @@ class UserController implements ControllerProviderInterface
      */
     public function users(Application $app)
     {
-        $users = UserRepository::getRepository($app)->findAll();
+        $users = UserRepository::getRepository()->findAll();
         return $app['twig']->render('users.twig', ['users' => $users]);
     }
 
@@ -54,9 +55,10 @@ class UserController implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('message', 'please fill in all fields');
             return $app->redirect($login_page_url);
         }
-        $app['orm.em']->persist($user);
+        $em = EntityManagerProvider::getEntityManager();
+        $em->persist($user);
         try {
-            $app['orm.em']->flush();
+            $em->flush();
         } catch (UniqueConstraintViolationException $e) {
             $app['session']->getFlashBag()->add('message', 'choose another username or email');
             return $app->redirect($login_page_url);
@@ -73,7 +75,7 @@ class UserController implements ControllerProviderInterface
      */
     public function profile(Application $app, $username)
     {
-        $user = UserRepository::getRepository($app)->findOneByUsername($username);
+        $user = UserRepository::getRepository()->findOneByUsername($username);
         if (!$user) {
             $app->abort(404, 'user does not exist.');
         }
@@ -87,7 +89,7 @@ class UserController implements ControllerProviderInterface
      */
     public function tasks(Application $app, $username)
     {
-        $user = UserRepository::getRepository($app)->findOneByUsername($username);
+        $user = UserRepository::getRepository()->findOneByUsername($username);
         $tasks = array_map(function ($task) use ($user) {
             return [
                 'id' => $task->id,

@@ -46,7 +46,7 @@ class SessionController implements ControllerProviderInterface
     public function login(Application $app, Request $request)
     {
         $u_username = $request->get('username');
-        $user = UserRepository::getRepository($app)->findOneByUsername($u_username);
+        $user = UserRepository::getRepository()->findOneByUsername($u_username);
         $login_page_url = $app['url_generator']->generate('login_page');
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'no such user');
@@ -86,7 +86,7 @@ class SessionController implements ControllerProviderInterface
     {
         $session_user = $app['session']->get('user');
         if ($session_user and $session_user['id']) {
-            $user = UserRepository::getRepository($app)->findOneById($session_user['id']);
+            $user = UserRepository::getRepository()->findOneById($session_user['id']);
             return $user;
         }
         return null;

@@ -4,17 +4,19 @@ declare(strict_types=1);
 namespace Todo\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Silex\Application;
+
+use Todo\EntityManagerProvider;
+use Todo\Entity\TaskEntity;
 
 class TaskRepository extends EntityRepository
 {
     /**
-     * @param Application $app
      * @return TaskRepository
      */
-    public static function getRepository(Application $app)
+    public static function getRepository()
     {
-        return $app['orm.em']->getRepository('Todo\Entity\TaskEntity');
+        $em = EntityManagerProvider::getEntityManager();
+        return $em->getRepository('Todo\Entity\TaskEntity');
     }
 
     /**

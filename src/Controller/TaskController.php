@@ -7,6 +7,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
+use Todo\EntityManagerProvider;
 use Todo\Entity\TaskEntity;
 use Todo\Repository\TaskRepository;
 
@@ -40,8 +41,9 @@ class TaskController implements ControllerProviderInterface
         }
         $t_name = $request->get('name');
         $task = new TaskEntity($t_name, $user, false);
-        $app['orm.em']->persist($task);
-        $app['orm.em']->flush();
+        $em = EntityManagerProvider::getEntityManager();
+        $em->persist($task);
+        $em->flush();
         $app['session']->getFlashBag()->add('message', 'task added');
         $home_url = $app['url_generator']->generate('home');
         return $app->redirect($home_url);
@@ -60,16 +62,17 @@ class TaskController implements ControllerProviderInterface
             $login_page_url = $app['url_generator']->generate('login_page');
             return $app->redirect($login_page_url);
         }
-        $u_id = $request->get('id');
-        $task = TaskRepository::getRepository($app)->findOneById($u_id);
+        $t_id = $request->get('id');
+        $task = TaskRepository::getRepository()->findOneById($t_id);
         if ($task->owner !== $user) {
             $app['session']->getFlashBag()->add('message', 'you are not the task owner');
             $home_url = $app['url_generator']->generate('home');
             return $app->redirect($home_url);
         }
         $task->is_done = true;
-        $app['orm.em']->persist($task);
-        $app['orm.em']->flush();
+        $em = EntityManagerProvider::getEntityManager();
+        $em->persist($task);
+        $em->flush();
         $app['session']->getFlashBag()->add('message', 'task done!');
         $referer_url = $request->headers->get('referer');
         return $app->redirect($referer_url);
@@ -88,16 +91,17 @@ class TaskController implements ControllerProviderInterface
             $login_page_url = $app['url_generator']->generate('login_page');
             return $app->redirect($login_page_url);
         }
-        $u_id = $request->get('id');
-        $task = TaskRepository::getRepository($app)->findOneById($u_id);
+        $t_id = (int) $request->get('id');
+        $task = TaskRepository::getRepository()->findOneById($t_id);
         if ($task->owner !== $user) {
             $app['session']->getFlashBag()->add('message', 'you are not the task owner');
             $home_url = $app['url_generator']->generate('home');
             return $app->redirect($home_url);
         }
         $task->is_done = false;
-        $app['orm.em']->persist($task);
-        $app['orm.em']->flush();
+        $em = EntityManagerProvider::getEntityManager();
+        $em->persist($task);
+        $em->flush();
         $app['session']->getFlashBag()->add('message', 'task undone');
         $referer_url = $request->headers->get('referer');
         return $app->redirect($referer_url);

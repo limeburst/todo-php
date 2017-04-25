@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Dflydev\Provider\DoctrineOrm\DoctrineOrmServiceProvider;
 use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
 use Silex\Provider\RoutingServiceProvider;
@@ -23,22 +22,6 @@ $app->register(new DoctrineServiceProvider(), [
 	'db.options' => [
 		'driver' => 'pdo_mysql',
 		'url' => 'mysql://todo:password@localhost/todo',
-	],
-]);
-$app->register(new DoctrineOrmServiceProvider(), [
-	'orm.em.options' => [
-		'mappings' => [
-			[
-				'type' => 'annotation',
-				'namespace' => 'Todo\Entity\UserEntity',
-				'path' => __DIR__,
-			],
-			[
-				'type' => 'annotation',
-				'namespace' => 'Todo\Entity\TaskEntity',
-				'path' => __DIR__,
-			],
-		],
 	],
 ]);
 $app->register(new RoutingServiceProvider());
