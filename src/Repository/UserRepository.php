@@ -21,7 +21,7 @@ class UserRepository extends EntityRepository
 
     /**
      * @param int $id
-     * @return null|object
+     * @return null|UserEntity
      */
     public function findOneById(int $id)
     {
@@ -30,7 +30,7 @@ class UserRepository extends EntityRepository
 
     /**
      * @param string $username
-     * @return null|object
+     * @return null|UserEntity
      */
     public function findOneByUsername(string $username)
     {
