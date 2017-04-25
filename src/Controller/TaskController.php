@@ -57,7 +57,7 @@ class TaskController implements ControllerProviderInterface
             $login_page_url = $app['url_generator']->generate('login_page');
             return $app->redirect($login_page_url);
         }
-        $t_id = $request->get('id');
+        $t_id = (int) $request->get('id');
         try {
             TaskAppService::markTaskAsDone($t_id, $user->id);
         } catch (\Exception $e) {
