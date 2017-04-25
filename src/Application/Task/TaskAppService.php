@@ -36,7 +36,7 @@ class TaskAppService
         if ($task->owner->id !== $u_id) {
             throw new \Exception('you are not the task owner');
         }
-        $task->is_done = true;
+        $task->markAsDone();
         $em = EntityManagerProvider::getEntityManager();
         $em->persist($task);
         $em->flush();
@@ -53,7 +53,7 @@ class TaskAppService
         if ($task->owner->id !== $u_id) {
             throw new \Exception('you are not the task owner');
         }
-        $task->is_done = false;
+        $task->markAsDoing();
         $em = EntityManagerProvider::getEntityManager();
         $em->persist($task);
         $em->flush();

@@ -37,4 +37,22 @@ class TaskEntity
         $this->owner = $owner;
         $this->is_done = $is_done;
     }
+
+    public function markAsDone()
+    {
+        $this->setDone(true);
+    }
+
+    public function markAsDoing()
+    {
+        $this->setDone(false);
+    }
+
+    /**
+     * @param bool $is_done
+     */
+    private function setDone(bool $is_done)
+    {
+        $this->is_done = $is_done;
+    }
 }
