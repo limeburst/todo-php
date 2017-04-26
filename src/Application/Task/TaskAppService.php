@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Todo\Application\Task;
 
-use Todo\EntityManagerProvider;
 use Todo\Domain\Task\Model\TaskEntity;
 use Todo\Domain\Task\Repository\TaskRepository;
 use Todo\Domain\User\Repository\UserRepository;
