@@ -12,13 +12,13 @@ class TaskAppService
     /**
      * @param string $t_name
      * @param int $u_id
-     * @param bool $t_done
+     * @param bool $t_is_done
      */
-    public static function saveTask(string $t_name, int $u_id, bool $t_done)
+    public static function saveTask(string $t_name, int $u_id, bool $t_is_done)
     {
 
         $user = UserRepository::getRepository()->findOneById($u_id);
-        $task = new TaskEntity($t_name, $user, $t_done);
+        $task = new TaskEntity($t_name, $user, $t_is_done);
         TaskRepository::getRepository()->save($task);
     }
 
