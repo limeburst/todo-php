@@ -16,7 +16,6 @@ class TaskAppService
      */
     public static function saveTask(string $t_name, int $u_id, bool $t_is_done)
     {
-
         $user = UserRepository::getRepository()->findOneById($u_id);
         $task = new TaskEntity($t_name, $user, $t_is_done);
         TaskRepository::getRepository()->save($task);
