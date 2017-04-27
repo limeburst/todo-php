@@ -26,11 +26,11 @@ class HomeController implements ControllerProviderInterface
     public function home(Application $app)
     {
         $user = SessionController::getCurrentUser($app);
-        if (!$user) {
+        if ($user !== null) {
             return $app['twig']->render('home.twig');
         }
         $tasks = $user->tasks->getValues();
-        if ($tasks) {
+        if (!empty($tasks)) {
             $doing = array_filter($tasks, function ($task) {
                 return !$task->is_done;
             });
