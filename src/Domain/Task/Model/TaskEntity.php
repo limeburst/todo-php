@@ -3,25 +3,31 @@ declare(strict_types=1);
 
 namespace Todo\Domain\Task\Model;
 
+use Doctrine\ORM\Mapping as ORM;
+
 use Todo\Domain\User\Model\UserEntity;
 
 /**
- * @Entity @Table(name="tasks")
+ * @ORM\Entity
+ * @ORM\Table(name="tasks")
  */
 class TaskEntity
 {
-	/** @Id @Column(type="integer") @GeneratedValue */
+	/**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue */
 	public $id;
 
-	/** @Column(type="string", nullable=false) */
+	/** @ORM\Column(type="string", nullable=false) */
 	public $name;
 
-	/** @Column(type="boolean", nullable=false, options={"default": false}) */
+	/** @ORM\Column(type="boolean", nullable=false, options={"default": false}) */
 	public $is_done;
 
 	/**
-	 * @ManyToOne(targetEntity="Todo\Domain\User\Model\UserEntity", inversedBy="tasks")
-	 * @JoinColumn(name="user_id", referencedColumnName="id")
+	 * @ORM\ManyToOne(targetEntity="Todo\Domain\User\Model\UserEntity", inversedBy="tasks")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	public $owner;
 

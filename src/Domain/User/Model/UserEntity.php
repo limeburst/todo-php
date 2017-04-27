@@ -3,29 +3,34 @@ declare(strict_types=1);
 
 namespace Todo\Domain\User\Model;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @Entity @Table(name="users")
+ * @ORM\Entity
+ * @ORM\Table(name="users")
  */
 class UserEntity
 {
-    /** @Id @Column(type="integer") @GeneratedValue */
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue */
     public $id;
 
-    /** @Column(type="string", nullable=false) */
+    /** @ORM\Column(type="string", nullable=false) */
     public $name;
 
-    /** @Column(type="string", nullable=false, unique=true) */
+    /** @ORM\Column(type="string", nullable=false, unique=true) */
     public $username;
 
-	/** @Column(type="string", nullable=false, unique=true) */
+	/** @ORM\Column(type="string", nullable=false, unique=true) */
 	public $email;
 
-    /** @Column(type="string", nullable=false) */
+    /** @ORM\Column(type="string", nullable=false) */
     public $password;
 
-	/** @OneToMany(targetEntity="Todo\Domain\Task\Model\TaskEntity", mappedBy="owner") */
+	/** @ORM\OneToMany(targetEntity="Todo\Domain\Task\Model\TaskEntity", mappedBy="owner") */
 	public $tasks;
 
     /**
