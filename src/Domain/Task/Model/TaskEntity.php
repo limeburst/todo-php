@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Todo\Domain\User\Model\UserEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Todo\Domain\Task\Repository\TaskRepository")
  * @ORM\Table(name="tasks")
  */
 class TaskEntity
