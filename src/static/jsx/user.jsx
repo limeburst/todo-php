@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom';
 import { TaskList } from './task.jsx';
 
 $.get('tasks', function(res) {
-    ReactDOM.render(
-        <TaskList tasks={res} />,
-        document.getElementById('root')
-    );
+  ReactDOM.render(
+    <TaskList tasks={res} />,
+    document.getElementById('root')
+  );
 });

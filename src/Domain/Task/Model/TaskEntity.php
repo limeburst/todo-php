@@ -13,23 +13,23 @@ use Todo\Domain\User\Model\UserEntity;
  */
 class TaskEntity
 {
-	/**
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue */
-	public $id;
+    public $id;
 
-	/** @ORM\Column(type="string", nullable=false) */
-	public $name;
+    /** @ORM\Column(type="string", nullable=false) */
+    public $name;
 
-	/** @ORM\Column(type="boolean", nullable=false, options={"default": false}) */
-	public $is_done;
+    /** @ORM\Column(type="boolean", nullable=false, options={"default": false}) */
+    public $is_done;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Todo\Domain\User\Model\UserEntity", inversedBy="tasks")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-	 */
-	public $owner;
+    /**
+     * @ORM\ManyToOne(targetEntity="Todo\Domain\User\Model\UserEntity", inversedBy="tasks")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    public $owner;
 
     /**
      * TaskEntity constructor.
@@ -37,7 +37,7 @@ class TaskEntity
      * @param UserEntity $owner
      * @param bool $is_done
      */
-	public function __construct(string $name, UserEntity $owner, bool $is_done)
+    public function __construct(string $name, UserEntity $owner, bool $is_done)
     {
         $this->name = $name;
         $this->owner = $owner;

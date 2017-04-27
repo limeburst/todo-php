@@ -19,16 +19,16 @@ $app = new Application();
 $app['debug'] = true;
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new DoctrineServiceProvider(), [
-	'db.options' => [
-		'driver' => 'pdo_mysql',
-		'url' => 'mysql://todo:password@localhost/todo',
-	],
+    'db.options' => [
+        'driver' => 'pdo_mysql',
+        'url' => 'mysql://todo:password@localhost/todo',
+    ],
 ]);
 $app->register(new RoutingServiceProvider());
 $app->register(new SessionServiceProvider());
 $app->register(new TwigServiceProvider(), [
-	'twig.path' => __DIR__.'/templates',
-	'twig.options' => ['debug' => true],
+    'twig.path' => __DIR__.'/templates',
+    'twig.options' => ['debug' => true],
 ]);
 $app['twig']->addFunction(
     new Twig_Function('current_user', 'Todo\Controller\SessionController::getCurrentUser')

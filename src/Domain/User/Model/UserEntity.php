@@ -24,14 +24,14 @@ class UserEntity
     /** @ORM\Column(type="string", nullable=false, unique=true) */
     public $username;
 
-	/** @ORM\Column(type="string", nullable=false, unique=true) */
-	public $email;
+    /** @ORM\Column(type="string", nullable=false, unique=true) */
+    public $email;
 
     /** @ORM\Column(type="string", nullable=false) */
     public $password;
 
-	/** @ORM\OneToMany(targetEntity="Todo\Domain\Task\Model\TaskEntity", mappedBy="owner") */
-	public $tasks;
+    /** @ORM\OneToMany(targetEntity="Todo\Domain\Task\Model\TaskEntity", mappedBy="owner") */
+    public $tasks;
 
     /**
      * UserEntity constructor.
@@ -40,12 +40,12 @@ class UserEntity
      * @param string $email
      * @param string $password
      */
-	public function __construct(string $name, string $username, string $email, string $password)
+    public function __construct(string $name, string $username, string $email, string $password)
     {
         $this->name = $name;
         $this->username = $username;
         $this->email = $email;
         $this->password = password_hash($password, PASSWORD_DEFAULT);
-		$this->tasks = new ArrayCollection();
-	}
+        $this->tasks = new ArrayCollection();
+    }
 }
