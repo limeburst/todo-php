@@ -71,10 +71,10 @@ class UserController implements ControllerProviderInterface
 
     /**
      * @param Application $app
-     * @param $username
+     * @param string $username
      * @return mixed
      */
-    public function profile(Application $app, $username)
+    public function profile(Application $app, string $username)
     {
         $user = UserRepository::getRepository()->findOneByUsername($username);
         if (!$user) {
@@ -85,10 +85,10 @@ class UserController implements ControllerProviderInterface
 
     /**
      * @param Application $app
-     * @param $username
+     * @param string $username
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function tasks(Application $app, $username)
+    public function tasks(Application $app, string $username)
     {
         $user = UserRepository::getRepository()->findOneByUsername($username);
         $tasks = array_map(function ($task) use ($user) {
