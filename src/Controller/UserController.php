@@ -61,6 +61,9 @@ class UserController implements ControllerProviderInterface
         } catch (UniqueConstraintViolationException $e) {
             $app['session']->getFlashBag()->add('message', 'choose another username or email');
             return $app->redirect($login_page_url);
+        } catch (\Exception $e) {
+            $app['session']->getFlashBag()->add('message', $e->getMessage());
+            return $app->redirect($login_page_url);
         }
 
         $app['session']->set('user', ['id' => $user->getId()]);
