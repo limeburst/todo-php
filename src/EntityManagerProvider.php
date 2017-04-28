@@ -24,7 +24,7 @@ class EntityManagerProvider
 
     protected static function createEntityManager()
     {
-        $config = Setup::createAnnotationMetadataConfiguration([__DIR__], true);
+        $config = Setup::createAnnotationMetadataConfiguration([__DIR__], true, null, null, false);
         $conn = [
             'driver' => 'pdo_mysql',
             'url' => 'mysql://todo:password@localhost/todo',
