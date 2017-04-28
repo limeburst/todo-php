@@ -29,10 +29,10 @@ class HomeController implements ControllerProviderInterface
         if ($user === null) {
             return $app['twig']->render('home.twig');
         }
-        $tasks = $user->tasks->getValues();
+        $tasks = $user->getTasks()->getValues();
         if (!empty($tasks)) {
             $doing = array_filter($tasks, function ($task) {
-                return !$task->is_done;
+                return !$task->getDone();
             });
         } else {
             $doing = [];

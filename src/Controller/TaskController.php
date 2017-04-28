@@ -38,7 +38,7 @@ class TaskController implements ControllerProviderInterface
             return $app->redirect($login_page_url);
         }
         $t_name = $request->get('name');
-        TaskAppService::saveTask($t_name, $user->id, false);
+        TaskAppService::saveTask($t_name, $user->getId(), false);
         $app['session']->getFlashBag()->add('message', 'task added');
         $home_url = $app['url_generator']->generate('home');
         return $app->redirect($home_url);
@@ -59,7 +59,7 @@ class TaskController implements ControllerProviderInterface
         }
         $t_id = (int) $request->get('id');
         try {
-            TaskAppService::markTaskAsDone($t_id, $user->id);
+            TaskAppService::markTaskAsDone($t_id, $user->getId());
         } catch (\Exception $e) {
             $app['session']->getFlashBag()->add('message', $e->getMessage());
             $home_url = $app['url_generator']->generate('home');
@@ -85,7 +85,7 @@ class TaskController implements ControllerProviderInterface
         }
         $t_id = (int) $request->get('id');
         try {
-            TaskAppService::markTaskAsDoing($t_id, $user->id);
+            TaskAppService::markTaskAsDoing($t_id, $user->getId());
         } catch (\Exception $e) {
             $app['session']->getFlashBag()->add('message', $e->getMessage());
             $home_url = $app['url_generator']->generate('home');

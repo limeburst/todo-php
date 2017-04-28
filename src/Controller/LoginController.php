@@ -53,12 +53,12 @@ class LoginController implements ControllerProviderInterface
             $app['session']->getFlashBag()->add('message', 'no such user');
             return $app->redirect($login_page_url);
         }
-        if (!password_verify($request->get('password'), $user->password)) {
+        if (!password_verify($request->get('password'), $user->getPassword())) {
             $app['session']->getFlashBag()->add('message', 'wrong password');
             return $app->redirect($login_page_url);
         }
         $app['session']->getFlashBag()->add('message', 'login success');
-        $app['session']->set('user', ['id' => $user->id]);
+        $app['session']->set('user', ['id' => $user->getId()]);
         $home_url = $app['url_generator']->generate('home');
         return $app->redirect($home_url);
     }

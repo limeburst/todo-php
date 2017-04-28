@@ -16,22 +16,22 @@ class UserEntity
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue */
-    public $id;
+    protected $id;
 
     /** @ORM\Column(type="string", nullable=false) */
-    public $name;
+    protected $name;
 
     /** @ORM\Column(type="string", nullable=false, unique=true) */
-    public $username;
+    protected $username;
 
     /** @ORM\Column(type="string", nullable=false, unique=true) */
-    public $email;
+    protected $email;
 
     /** @ORM\Column(type="string", nullable=false) */
-    public $password;
+    protected $password;
 
     /** @ORM\OneToMany(targetEntity="Todo\Domain\Task\Model\TaskEntity", mappedBy="owner") */
-    public $tasks;
+    protected $tasks;
 
     /**
      * UserEntity constructor.
@@ -47,5 +47,45 @@ class UserEntity
         $this->email = $email;
         $this->password = password_hash($password, PASSWORD_DEFAULT);
         $this->tasks = new ArrayCollection();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
     }
 }

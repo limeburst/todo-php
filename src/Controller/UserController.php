@@ -63,7 +63,7 @@ class UserController implements ControllerProviderInterface
             return $app->redirect($login_page_url);
         }
 
-        $app['session']->set('user', ['id' => $user->id]);
+        $app['session']->set('user', ['id' => $user->getId()]);
         
         $users_url = $app['url_generator']->generate('users');
         return $app->redirect($users_url);
@@ -98,7 +98,7 @@ class UserController implements ControllerProviderInterface
                 'done' => $task->is_done,
                 'owner' => $task->owner->username,
             ];
-        }, $user->tasks->getValues());
+        }, $user->getTasks()->getValues());
         return $app->json(array_reverse($tasks));
     }
 }

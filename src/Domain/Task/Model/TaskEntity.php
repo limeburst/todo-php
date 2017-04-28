@@ -17,19 +17,19 @@ class TaskEntity
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue */
-    public $id;
+    protected $id;
 
     /** @ORM\Column(type="string", nullable=false) */
-    public $name;
+    protected $name;
 
     /** @ORM\Column(type="boolean", nullable=false, options={"default": false}) */
-    public $is_done;
+    protected $is_done;
 
     /**
      * @ORM\ManyToOne(targetEntity="Todo\Domain\User\Model\UserEntity", inversedBy="tasks")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    public $owner;
+    protected $owner;
 
     /**
      * TaskEntity constructor.
@@ -60,5 +60,37 @@ class TaskEntity
     private function setDone(bool $is_done)
     {
         $this->is_done = $is_done;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDone()
+    {
+        return $this->is_done;
+    }
+
+    /**
+     * @return UserEntity
+     */
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }

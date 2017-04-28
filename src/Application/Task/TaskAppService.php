@@ -49,7 +49,7 @@ class TaskAppService
 
     private static function assertTaskOwner(TaskEntity $task, int $u_id)
     {
-        if ($task->owner->id !== $u_id) {
+        if ($task->getOwner()->getId() !== $u_id) {
             throw new \Exception('you are not the task owner');
         }
     }
