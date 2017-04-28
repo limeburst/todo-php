@@ -9,7 +9,7 @@ use Silex\Api\ControllerProviderInterface;
 
 use Todo\Domain\User\Repository\UserRepository;
 
-class SessionController implements ControllerProviderInterface
+class LoginController implements ControllerProviderInterface
 {
     /**
      * @param Application $app

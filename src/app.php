@@ -11,7 +11,7 @@ use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 
 use Todo\Controller\HomeController;
-use Todo\Controller\SessionController;
+use Todo\Controller\LoginController;
 use Todo\Controller\TaskController;
 use Todo\Controller\UserController;
 
@@ -31,11 +31,11 @@ $app->register(new TwigServiceProvider(), [
     'twig.options' => ['debug' => true],
 ]);
 $app['twig']->addFunction(
-    new Twig_Function('current_user', 'Todo\Controller\SessionController::getCurrentUser')
+    new Twig_Function('current_user', 'Todo\Controller\LoginController::getCurrentUser')
 );
 
 $app->mount('/', new HomeController());
-$app->mount('/', new SessionController());
+$app->mount('/', new LoginController());
 $app->mount('/tasks/', new TaskController());
 $app->mount('/users/', new UserController());
 

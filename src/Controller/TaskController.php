@@ -31,7 +31,7 @@ class TaskController implements ControllerProviderInterface
      */
     public function addTask(Application $app, Request $request)
     {
-        $user = SessionController::getCurrentUser($app);
+        $user = LoginController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
             $login_page_url = $app['url_generator']->generate('login_page');
@@ -51,7 +51,7 @@ class TaskController implements ControllerProviderInterface
      */
     public function finishTask(Application $app, Request $request)
     {
-        $user = SessionController::getCurrentUser($app);
+        $user = LoginController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
             $login_page_url = $app['url_generator']->generate('login_page');
@@ -77,7 +77,7 @@ class TaskController implements ControllerProviderInterface
      */
     public function unfinishTask(Application $app, Request $request)
     {
-        $user = SessionController::getCurrentUser($app);
+        $user = LoginController::getCurrentUser($app);
         if (!$user) {
             $app['session']->getFlashBag()->add('message', 'not logged in');
             $login_page_url = $app['url_generator']->generate('login_page');
