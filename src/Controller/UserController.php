@@ -44,22 +44,27 @@ class UserController implements ControllerProviderInterface
      */
     public function addUser(Application $app, Request $request)
     {
+        $login_page_url = $app['url_generator']->generate('login_page');
+
         $u_name = $request->get('name');
         $u_username = $request->get('username');
         $u_email = $request->get('email');
         $u_password = $request->get('password');
-        $login_page_url = $app['url_generator']->generate('login_page');
+
         if (!$u_name || !$u_username || !$u_email || !$u_password) {
             $app['session']->getFlashBag()->add('message', 'please fill in all fields');
             return $app->redirect($login_page_url);
         }
+
         try {
             $user = UserAppService::saveUser($u_name, $u_username, $u_email, $u_password);
         } catch (UniqueConstraintViolationException $e) {
             $app['session']->getFlashBag()->add('message', 'choose another username or email');
             return $app->redirect($login_page_url);
         }
+
         $app['session']->set('user', ['id' => $user->id]);
+        
         $users_url = $app['url_generator']->generate('users');
         return $app->redirect($users_url);
     }
