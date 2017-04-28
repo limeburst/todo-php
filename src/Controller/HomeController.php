@@ -26,7 +26,7 @@ class HomeController implements ControllerProviderInterface
     public function home(Application $app)
     {
         $user = LoginController::getCurrentUser($app);
-        if ($user !== null) {
+        if ($user === null) {
             return $app['twig']->render('home.twig');
         }
         $tasks = $user->tasks->getValues();
