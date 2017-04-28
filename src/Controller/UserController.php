@@ -7,6 +7,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use Todo\Domain\User\Repository\UserRepository;
 use Todo\Application\User\UserAppService;
@@ -78,7 +79,7 @@ class UserController implements ControllerProviderInterface
     {
         $user = UserRepository::getRepository()->findOneByUsername($username);
         if (!$user) {
-            $app->abort(404, 'user does not exist.');
+            $app->abort(Response::HTTP_NOT_FOUND, 'user does not exist.');
         }
         return $app['twig']->render('user.twig', ['user' => $user]);
     }
