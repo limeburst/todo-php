@@ -7,6 +7,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\ControllerProviderInterface;
 
+use Todo\Domain\User\Model\UserEntity;
 use Todo\Domain\User\Repository\UserRepository;
 
 class LoginController implements ControllerProviderInterface
@@ -80,7 +81,7 @@ class LoginController implements ControllerProviderInterface
 
     /**
      * @param Application $app
-     * @return null|object
+     * @return null|UserEntity
      */
     public static function getCurrentUser(Application $app)
     {
