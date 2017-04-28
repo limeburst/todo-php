@@ -34,14 +34,14 @@ class TaskEntity
     /**
      * TaskEntity constructor.
      * @param string $name
-     * @param UserEntity $owner
      * @param bool $is_done
+     * @param UserEntity $owner
      */
-    public function __construct(string $name, UserEntity $owner, bool $is_done)
+    public function __construct(string $name, bool $is_done, UserEntity $owner)
     {
         $this->name = $name;
-        $this->owner = $owner;
         $this->is_done = $is_done;
+        $this->owner = $owner;
     }
 
     public function markAsDone()
