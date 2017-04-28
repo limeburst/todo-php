@@ -29,9 +29,7 @@ class TaskAppService
     public static function markTaskAsDone(int $t_id, int $u_id)
     {
         $task = TaskRepository::getRepository()->findOneById($t_id);
-        if ($task->owner->id !== $u_id) {
-            throw new \Exception('you are not the task owner');
-        }
+        self::assertTaskOwner($task, $u_id);
         $task->markAsDone();
         TaskRepository::getRepository()->save($task);
     }
@@ -44,10 +42,15 @@ class TaskAppService
     public static function markTaskAsDoing(int $t_id, int $u_id)
     {
         $task = TaskRepository::getRepository()->findOneById($t_id);
+        self::assertTaskOwner($task, $u_id);
+        $task->markAsDoing();
+        TaskRepository::getRepository()->save($task);
+    }
+
+    private static function assertTaskOwner(TaskEntity $task, int $u_id)
+    {
         if ($task->owner->id !== $u_id) {
             throw new \Exception('you are not the task owner');
         }
-        $task->markAsDoing();
-        TaskRepository::getRepository()->save($task);
     }
 }
